@@ -1,3 +1,5 @@
+use std::collections::HashMap;
+
 use crate::Day;
 
 /// This is a test day (day1 from 2024)
@@ -20,9 +22,14 @@ impl Day for Day00 {
     fn part2(&self, input: &str) -> String {
         let (a, b) = parse_lists(input);
 
+        let freq: HashMap<i32, i32> = b.iter().fold(HashMap::new(), |mut m, &x| {
+            *m.entry(x).or_default() += 1;
+            m
+        });
+
         a.iter()
-            .map(|&x| x as usize * b.iter().filter(|&&y| y == x).count())
-            .sum::<usize>()
+            .map(|&x| x * freq.get(&x).copied().unwrap_or(0))
+            .sum::<i32>()
             .to_string()
     }
 }
@@ -31,17 +38,12 @@ fn parse_lists(input: &str) -> (Vec<i32>, Vec<i32>) {
     input
         .trim()
         .lines()
-        .fold((Vec::new(), Vec::new()), |(mut a, mut b), line| {
-            let inputs: Vec<i32> = line
-                .split_whitespace()
-                .map(|x| x.parse::<i32>().unwrap())
-                .collect();
+        .map(|line| {
+            let mut inputs = line.split_whitespace().map(|x| x.parse::<i32>().unwrap());
 
-            a.push(inputs[0]);
-            b.push(inputs[1]);
-
-            (a, b)
+            (inputs.next().unwrap(), inputs.next().unwrap())
         })
+        .unzip()
 }
 
 #[cfg(test)]
