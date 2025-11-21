@@ -1,3 +1,4 @@
+use aoc::fmt_duration;
 use clap::{Parser, Subcommand};
 use std::{fs, path::Path, process::Command, time::Instant};
 
@@ -33,7 +34,7 @@ fn run_part(solver: &dyn aoc::Day, input: &str, part_num: u8) {
         }
     };
     let elapsed = start.elapsed();
-    println!("Part {part_num}: {result} (🚀 {} ms)", elapsed.as_millis());
+    println!("Part {part_num}: {result} (🚀 {})", fmt_duration(elapsed));
 }
 
 fn run_day(day: u8, part: Option<u8>) {
