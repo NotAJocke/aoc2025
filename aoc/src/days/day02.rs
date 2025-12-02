@@ -1,25 +1,27 @@
 use rayon::prelude::*;
 use std::ops::RangeInclusive;
 
-use crate::Day;
+use crate::{Day, Solution};
 
 pub struct Day02;
 
 impl Day for Day02 {
-    fn part1(&self, input: &str) -> String {
-        parse_ranges(input)
-            .flat_map(|r| r)
-            .filter(|&x| is_invalid(x))
-            .sum::<i64>()
-            .to_string()
+    fn part1(&self, input: &str) -> Solution {
+        Solution::Int(
+            parse_ranges(input)
+                .flat_map(|r| r)
+                .filter(|&x| is_invalid(x))
+                .sum::<i64>(),
+        )
     }
 
-    fn part2(&self, input: &str) -> String {
-        parse_ranges(input)
-            .flat_map(|r| r)
-            .filter(|&x| is_invalid2(x))
-            .sum::<i64>()
-            .to_string()
+    fn part2(&self, input: &str) -> Solution {
+        Solution::Int(
+            parse_ranges(input)
+                .flat_map(|r| r)
+                .filter(|&x| is_invalid2(x))
+                .sum::<i64>(),
+        )
     }
 }
 
@@ -66,7 +68,7 @@ fn is_invalid2(x: i64) -> bool {
 #[cfg(test)]
 mod tests {
     use crate::{
-        Day,
+        Day, Solution,
         days::day02::{Day02, is_invalid, is_invalid2},
     };
 
@@ -75,12 +77,12 @@ mod tests {
 
     #[test]
     fn test_part1() {
-        assert_eq!(SOLVER.part1(TEST), "1227775554");
+        assert_eq!(SOLVER.part1(TEST), Solution::Int(1227775554));
     }
 
     #[test]
     fn test_part2() {
-        assert_eq!(SOLVER.part2(TEST), "4174379265");
+        assert_eq!(SOLVER.part2(TEST), Solution::Int(4174379265));
     }
 
     #[test]

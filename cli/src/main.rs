@@ -90,17 +90,17 @@ fn generate(day: u8) {
     }
 
     let template = format!(
-        r#"use crate::Day;
+        r#"use crate::{{Day, Solution}};
 
 pub struct Day{num:02};
 
 impl Day for Day{num:02} {{
-    fn part1(&self, input: &str) -> String {{
-        String::new()
+    fn part1(&self, _input: &str) -> Solution {{
+        Solution::Int(0)
     }}
 
-    fn part2(&self, _input: &str) -> String {{
-        String::new()
+    fn part2(&self, _input: &str) -> Solution {{
+        Solution::Int(0)
     }}
 }}
 

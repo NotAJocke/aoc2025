@@ -1,25 +1,21 @@
 use std::collections::HashMap;
 
-use crate::Day;
+use crate::{Day, Solution};
 
 /// This is a test day (day1 from 2024)
 /// https://adventofcode.com/2024/day/1
 pub struct Day00;
 impl Day for Day00 {
-    fn part1(&self, input: &str) -> String {
+    fn part1(&self, input: &str) -> Solution {
         let (mut a, mut b) = parse_lists(input);
 
         a.sort();
         b.sort();
 
-        a.iter()
-            .zip(b)
-            .map(|(a, b)| (a - b).abs())
-            .sum::<i32>()
-            .to_string()
+        Solution::Int(a.iter().zip(b).map(|(a, b)| (a - b).abs()).sum::<i32>() as i64)
     }
 
-    fn part2(&self, input: &str) -> String {
+    fn part2(&self, input: &str) -> Solution {
         let (a, b) = parse_lists(input);
 
         let freq: HashMap<i32, i32> = b.iter().fold(HashMap::new(), |mut m, &x| {
@@ -27,10 +23,11 @@ impl Day for Day00 {
             m
         });
 
-        a.iter()
-            .map(|&x| x * freq.get(&x).copied().unwrap_or(0))
-            .sum::<i32>()
-            .to_string()
+        Solution::Int(
+            a.iter()
+                .map(|&x| x * freq.get(&x).copied().unwrap_or(0))
+                .sum::<i32>() as i64,
+        )
     }
 }
 
@@ -48,7 +45,7 @@ fn parse_lists(input: &str) -> (Vec<i32>, Vec<i32>) {
 
 #[cfg(test)]
 mod tests {
-    use crate::{Day, days::day00::Day00};
+    use crate::{Day, Solution, days::day00::Day00};
 
     const TEST: &str = "
 3   4
@@ -63,11 +60,11 @@ mod tests {
 
     #[test]
     fn test_part1() {
-        assert_eq!(SOLVER.part1(TEST).as_str(), "11");
+        assert_eq!(SOLVER.part1(TEST), Solution::Int(11));
     }
 
     #[test]
     fn test_part2() {
-        assert_eq!(SOLVER.part2(TEST).as_str(), "31");
+        assert_eq!(SOLVER.part2(TEST), Solution::Int(31));
     }
 }

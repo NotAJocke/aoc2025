@@ -1,4 +1,4 @@
-use crate::Day;
+use crate::{Day, Solution};
 
 pub struct Day01;
 
@@ -60,19 +60,20 @@ impl<C: FnMut(i32)> Dial<C> {
 }
 
 impl Day for Day01 {
-    fn part1(&self, input: &str) -> String {
+    fn part1(&self, input: &str) -> Solution {
         let mut dial = Dial::<fn(i32)>::new(50);
 
-        input
-            .trim()
-            .lines()
-            .map(Rotation::parse)
-            .filter(|&r| dial.apply(r) == 0)
-            .count()
-            .to_string()
+        Solution::Int(
+            input
+                .trim()
+                .lines()
+                .map(Rotation::parse)
+                .filter(|&r| dial.apply(r) == 0)
+                .count() as i64,
+        )
     }
 
-    fn part2(&self, input: &str) -> String {
+    fn part2(&self, input: &str) -> Solution {
         let mut dial = Dial::new(50);
 
         let mut zeroes = 0;
@@ -90,13 +91,13 @@ impl Day for Day01 {
                 dial.apply(rotation);
             });
 
-        zeroes.to_string()
+        Solution::Int(zeroes)
     }
 }
 
 #[cfg(test)]
 mod tests {
-    use crate::{Day, days::day01::Day01};
+    use crate::{Day, Solution, days::day01::Day01};
 
     const TEST: &str = "L68
 L30
@@ -113,11 +114,11 @@ L82";
 
     #[test]
     fn test_part1() {
-        assert_eq!(SOLVER.part1(TEST), "3");
+        assert_eq!(SOLVER.part1(TEST), Solution::Int(3));
     }
 
     #[test]
     fn test_part2() {
-        assert_eq!(SOLVER.part2(TEST), "6")
+        assert_eq!(SOLVER.part2(TEST), Solution::Int(6));
     }
 }
