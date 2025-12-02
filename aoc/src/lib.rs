@@ -1,4 +1,5 @@
 mod days;
+pub mod search;
 
 use std::{fs, time::Duration};
 
