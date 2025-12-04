@@ -6,4 +6,5 @@ edition = "2024"
 [dependencies]
 itoa = "1.0.15"
 rayon = "1.11.0"
+rustc-hash = "2.1.1"
 smallvec = "1.15.1"

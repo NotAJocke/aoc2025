@@ -1,3 +1,7 @@
+use std::collections::VecDeque;
+
+use rustc_hash::FxHashMap;
+
 use crate::{Day, Solution, grid2d::Grid2D};
 
 pub struct Day04;
@@ -25,41 +29,65 @@ impl Day for Day04 {
     }
 
     fn part2(&self, input: &str) -> Solution {
-        let mut grid: Grid2D<char> = Grid2D::from(input.trim());
+        const NEIGHBORS: [(isize, isize); 8] = [
+            (-1, -1),
+            (-1, 0),
+            (-1, 1),
+            (1, -1),
+            (1, 0),
+            (1, 1),
+            (0, 1),
+            (0, -1),
+        ];
+        let grid: Grid2D<char> = Grid2D::from(input.trim());
 
-        let mut to_remove: Vec<(usize, usize)> = Vec::new();
-        let mut total_count = 0i64;
+        let mut rolls: FxHashMap<(usize, usize), usize> = FxHashMap::default();
+        let mut queue: VecDeque<(usize, usize)> = VecDeque::new();
 
-        loop {
-            for &(x, y) in &to_remove {
-                *grid.get_mut(x, y).unwrap() = 'x';
+        grid.iter().for_each(|((x, y), &cell)| {
+            if cell == '@' {
+                let neighbors_count = grid
+                    .all_neighbors(x, y)
+                    .iter()
+                    .filter(|&&(_, &neighbor)| neighbor == '@')
+                    .count();
+
+                if neighbors_count < 4 {
+                    queue.push_back((x, y));
+                } else {
+                    rolls.insert((x, y), neighbors_count);
+                }
             }
-            to_remove.clear();
+        });
 
-            grid.into_iter()
-                .filter(|&((x, y), &cell)| {
-                    if cell != '@' {
-                        return false;
-                    }
-                    grid.all_neighbors(x, y)
-                        .into_iter()
-                        .filter(|&(_, &neighbor)| neighbor == '@')
-                        .take(4)
-                        .count()
-                        < 4
+        let mut count = 0i64;
+        while !queue.is_empty() {
+            let (x, y) = queue.pop_front().unwrap();
+            count += 1;
+
+            NEIGHBORS
+                .iter()
+                .filter_map(|&(dx, dy)| {
+                    let nx = x.checked_add_signed(dx)?;
+                    let ny = y.checked_add_signed(dy)?;
+
+                    Some((nx, ny))
                 })
-                .for_each(|((x, y), _)| {
-                    to_remove.push((x, y));
+                .for_each(|n| {
+                    let Some(&neighbors_count) = rolls.get(&n) else {
+                        return;
+                    };
+
+                    if neighbors_count - 1 < 4 {
+                        rolls.remove(&n);
+                        queue.push_back(n);
+                    } else {
+                        rolls.entry(n).and_modify(|x| *x -= 1);
+                    }
                 });
-
-            total_count += to_remove.len() as i64;
-
-            if to_remove.is_empty() {
-                break;
-            }
         }
 
-        Solution::Int(total_count)
+        Solution::Int(count)
     }
 }
 
