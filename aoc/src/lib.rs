@@ -1,4 +1,5 @@
 mod days;
+pub mod grid2d;
 pub mod search;
 
 use std::{fmt::Display, fs, time::Duration};
