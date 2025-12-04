@@ -7,14 +7,14 @@ impl Day for Day04 {
         let grid: Grid2D<char> = Grid2D::from(input.trim());
 
         let count = grid
-            .into_iter()
+            .iter()
             .filter(|&((x, y), &cell)| {
                 if cell != '@' {
                     return false;
                 }
                 grid.all_neighbors(x, y)
-                    .into_iter()
-                    .filter(|&(_, neighbor)| neighbor == '@')
+                    .iter()
+                    .filter(|&&(_, &neighbor)| neighbor == '@')
                     .take(4)
                     .count()
                     < 4
@@ -32,7 +32,7 @@ impl Day for Day04 {
 
         loop {
             for &(x, y) in &to_remove {
-                *grid.get_mut(x, y) = 'x';
+                *grid.get_mut(x, y).unwrap() = 'x';
             }
             to_remove.clear();
 
@@ -43,7 +43,7 @@ impl Day for Day04 {
                     }
                     grid.all_neighbors(x, y)
                         .into_iter()
-                        .filter(|&(_, neighbor)| neighbor == '@')
+                        .filter(|&(_, &neighbor)| neighbor == '@')
                         .take(4)
                         .count()
                         < 4
