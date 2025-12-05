@@ -33,13 +33,17 @@ pub fn load_input(day: u8) -> String {
 }
 
 pub fn fmt_duration(d: Duration) -> String {
-    if d.as_secs() > 0 {
-        format!("{} s", d.as_secs())
-    } else if d.as_millis() > 0 {
-        format!("{} ms", d.as_millis())
-    } else if d.as_micros() > 0 {
-        format!("{} µs", d.as_micros())
+    if d.as_secs() >= 1 {
+        let s = d.as_secs_f64();
+        format!("{:.2} s", s)
+    } else if d.as_millis() >= 1 {
+        let ms = d.as_secs_f64() * 1000.0;
+        format!("{:.2} ms", ms)
+    } else if d.as_micros() >= 1 {
+        let us = d.as_secs_f64() * 1_000_000.0;
+        format!("{:.2} µs", us)
     } else {
-        format!("{} ns", d.as_nanos())
+        let ns = d.as_secs_f64() * 1_000_000_000.0;
+        format!("{:.2} ns", ns)
     }
 }
