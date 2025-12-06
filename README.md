@@ -20,6 +20,7 @@ Everything is done **without AI**, there’s no point. I focus on idiomatic Rust
 | [03](aoc/src/days/day03.rs) | ✅ | ✅ | `85.58 µs / 175.17 µs` |
 | [04](aoc/src/days/day04.rs) | ✅ | ✅ | `500.92 µs / 1.58 ms` |
 | [05](aoc/src/days/day05.rs) | ✅ | ✅ | `69.08 µs / 37.33 µs` |
+| [06](aoc/src/days/day06.rs) | ✅ | ✅ | `124.54 µs / 154.46 µs` |
 
 ## Hardware / Environment
 - CPU: Apple M1 Pro
