@@ -4,6 +4,7 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
+itertools = "0.14.0"
 itoa = "1.0.15"
 rayon = "1.11.0"
 rustc-hash = "2.1.1"
