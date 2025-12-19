@@ -112,7 +112,7 @@ impl<'a> Graph<'a> {
         let mut total = 0;
 
         for child in childs {
-            total = self.n_path_from_to_helper2(child, to, memo, dac, fft);
+            total += self.n_path_from_to_helper2(child, to, memo, dac, fft);
         }
 
         memo.insert((node, dac, fft), total);
