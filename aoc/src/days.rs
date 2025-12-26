@@ -14,6 +14,7 @@ mod day08;
 mod day09;
 mod day10;
 mod day11;
+mod day12;
 
 pub static DAYS: LazyLock<HashMap<u8, Box<dyn Day + Send + Sync>>> = LazyLock::new(|| {
     let mut map = HashMap::new();
@@ -30,6 +31,7 @@ pub static DAYS: LazyLock<HashMap<u8, Box<dyn Day + Send + Sync>>> = LazyLock::n
     map.insert(9, Box::new(crate::days::day09::Day09) as Box<_>);
     map.insert(10, Box::new(crate::days::day10::Day10) as Box<_>);
     map.insert(11, Box::new(crate::days::day11::Day11) as Box<_>);
+    map.insert(12, Box::new(crate::days::day12::Day12) as Box<_>);
 
     map
 });
